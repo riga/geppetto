@@ -93,7 +93,7 @@ class AttentionHead(torch.nn.Module):
         v: torch.Tensor,
         /,
         *,
-        ninf_mask: torch.Tensor | None = None,  # sets values -inf before softmax
+        ninf_mask: torch.Tensor | None = None,  # sets values to -inf before softmax
         zero_mask: torch.Tensor | None = None,  # sets values to 0 after softmax
     ) -> torch.Tensor:
         # H is the head size, identical to embedding size for single-head attention
@@ -211,7 +211,7 @@ class TransformerBlock(torch.nn.Module):
         m = self.mlp(m)  # (B, C, E)
         if self.mlp_dropout:
             m = self.mlp_dropout(m)
-        x += m
+        x = x + m
 
         return x
 
